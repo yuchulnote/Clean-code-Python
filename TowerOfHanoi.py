@@ -4,7 +4,7 @@
 import copy
 import sys
 
-TOTAL_DISKS = 5  # 원판이 많을수록 퍼즐은 더 어려워진다
+TOTAL_DISKS = 7  # 원판이 많을수록 퍼즐은 더 어려워진다
 
 # A탑에 모든 원판이 놓인 상태로 시작한다
 SOLVED_TOWER = list(range(TOTAL_DISKS, 0, -1))
@@ -29,6 +29,7 @@ def main():
     큰 원판이 있으며, 유효하지 않은 구성이다. 리스트[3,1]이 허용되는 이유는
     작은 원판이 큰 원판 상단에 올라갈 수 있기 때문이다."""
     towers = {"A": copy.copy(SOLVED_TOWER), "B": [], "C": []}
+    COUNT = 0
 
     while True:  # 이 루프문이 한 번 순회할 때마다 한 턴을 진행한다
         # 탑과 원판을 표시한다
@@ -40,6 +41,10 @@ def main():
         # 맨 위 원판을 fromTower에서 toTower로 이동한다
         disk = towers[fromTower].pop()
         towers[toTower].append(disk)
+
+        COUNT += 1
+
+        print(f"COUNT: {COUNT}")
 
         # 사용자가 퍼즐을 풀었는지 확인한다
         if SOLVED_TOWER in (towers["B"], towers["C"]):
