@@ -55,7 +55,7 @@ def getPlayerMove(towers):
         print('탑의 "시작"과 "끝"의 글자 또는 QUIT를 입력하십시오.')
         print("(예: 탑 A에서 탑 B로 원판을 이동하려면 AB를 입력합니다.)")
         print()
-        response = input("> ").upper().strip
+        response = input("> ").upper().strip()
 
         if response == "QUIT":
             print("즐겁게 퍼즐을 풀어주셔서 감사합니다!")
