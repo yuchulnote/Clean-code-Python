@@ -84,7 +84,7 @@ def getPlayerMove(towers):
             return fromTower, toTower
 
 
-def displayTower(towers):
+def displayTowers(towers):
     """세 탑에 배치된 원판을 표시한다."""
 
     # 세 탑을 표시한다
