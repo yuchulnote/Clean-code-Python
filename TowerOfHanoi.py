@@ -59,7 +59,7 @@ def getPlayerMove(towers):
 
         if response == "QUIT":
             print("즐겁게 퍼즐을 풀어주셔서 감사합니다!")
-            sys.exit
+            sys.exit()
 
         # 사용자가 유효한 탑 문자를 입력했는지 확인한다
         if response not in ("AB", "AC", "BA", "BC", "CA", "CB"):
