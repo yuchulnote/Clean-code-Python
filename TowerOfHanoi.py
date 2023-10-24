@@ -4,7 +4,7 @@
 import copy
 import sys
 
-TOTAL_DISKS = 7  # 원판이 많을수록 퍼즐은 더 어려워진다
+TOTAL_DISKS = 8  # 원판이 많을수록 퍼즐은 더 어려워진다
 
 # A탑에 모든 원판이 놓인 상태로 시작한다
 SOLVED_TOWER = list(range(TOTAL_DISKS, 0, -1))
@@ -44,7 +44,7 @@ def main():
 
         COUNT += 1
 
-        print(f"COUNT: {COUNT}")
+        print(f"\nCOUNT: {COUNT}\n")
 
         # 사용자가 퍼즐을 풀었는지 확인한다
         if SOLVED_TOWER in (towers["B"], towers["C"]):
