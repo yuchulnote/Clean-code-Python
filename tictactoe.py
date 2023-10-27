@@ -17,6 +17,8 @@ def main():
         while not isValidSpace(gameBoard, move):
             print(f"{currentPlayer}의 움직임은?(1-9)")
             move = input()
+            if move in ALL_SPACES and gameBoard[move] != BLANK:
+                print("같은 타일을 선택할 수 없습니다!")
         updateBoard(gameBoard, move, currentPlayer)  # 움직임을 만든다
 
         # 게임이 끝났는지 확인한다.
@@ -53,7 +55,8 @@ def getBoardStr(board):
 def isValidSpace(board, space):
     """board의 space가 유효한 칸 번호이며, 그 칸이 비어 있을 경우
     True를 반환한다."""
-    return 0 < int(space) < 10 and (space in ALL_SPACES or board[space] == BLANK)
+    # return 0 < int(space) < 10 and (space in ALL_SPACES or board[space] == BLANK)
+    return space in ALL_SPACES and board[space] == BLANK
 
 
 def isWinner(board, player):
