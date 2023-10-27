@@ -1,4 +1,5 @@
 # tictactoe_oop.py, 객체지향 틱택토 게임
+import copy
 
 ALL_SPACES = list("123456789")  # TTTBoard 딕셔너리를 위한 키
 X, O, BLANK = "X", "O", " "  # 문자열 값을 위한 상수
@@ -7,7 +8,17 @@ X, O, BLANK = "X", "O", " "  # 문자열 값을 위한 상수
 def main():
     """틱택토 게임을 실행한다."""
     print("틱택토 게임에 오신 당신을 환영합니다!")
-    gameBoard = TTTBoard()  # TTTBoard 객체를 생성한다
+    if input("미니 보드를 사용하겠습니까? Y/N: ").lower().startswith("y"):
+        if input("힌트 보기를 사용하시겠습니까? Y/N: ").lower().startswith("y"):
+            gameBoard = HintBoard_Mini()  # HintBoard_Mini 객체를 생성한다
+        else:
+            gameBoard = MiniBoard()  # MiniBoard 객체를 생성한다
+    else:
+        if input("힌트 보기를 사용하시겠습니까? Y/N: ").lower().startswith("y"):
+            gameBoard = HintBoard_TTT()  # HintBoard_TTT 객체를 생성한다
+        else:
+            gameBoard = TTTBoard()  # TTTBoard 객체를 생성한다
+
     currentPlayer, nextPlayer = X, O  # X가 선공, O가 후공
 
     while True:
@@ -82,6 +93,86 @@ class TTTBoard:
     def updateBoard(self, space, player):
         """말판의 space를 player로 설정한다"""
         self._spaces[space] = player
+
+
+class MiniBoard(TTTBoard):
+    def getBoardStr(self):
+        """말판의 텍스트 표현을 작게 하는 문자열을 반환한다."""
+        # 공백 한 칸을 '.'으로 치환한다
+        for space in ALL_SPACES:
+            if self._spaces[space] == BLANK:
+                self._spaces[space] = "."
+
+        boardStr = f"""
+            {self._spaces['1']}{self._spaces['2']}{self._spaces['3']} 123
+            {self._spaces['4']}{self._spaces['5']}{self._spaces['6']} 456
+            {self._spaces['7']}{self._spaces['8']}{self._spaces['9']} 789"""
+
+        # 공백 한 칸을 '.'으로 치환한다
+        for space in ALL_SPACES:
+            if self._spaces[space] == ".":
+                self._spaces[space] = BLANK
+        return boardStr
+
+
+class HintBoard_TTT(TTTBoard):
+    def getBoardStr(self):
+        """힌트가 포함된 말판을 텍스트로 표현하는 문자열을 반환한다."""
+        boardStr = super().getBoardStr()  # TTTBoard에 있는 getBoardStr()을 호출한다
+
+        xCanWin = False
+        oCanWin = False
+        originalSpaces = self._spaces  # _space를 백업한다
+        for space in ALL_SPACES:  # 모든 칸을 확인한다
+            # 이 칸에서 X 이동을 시뮬레이션한다
+            self._spaces = copy.copy(originalSpaces)
+            if self._spaces[space] == BLANK:
+                self._spaces[space] = X
+            if self.isWinner(X):
+                xCanWin = True
+
+            # 이 칸에서 O 이동을 시뮬레이션한다
+            self._spaces = copy.copy(originalSpaces)
+            if self._spaces[space] == BLANK:
+                self._spaces[space] = O
+            if self.isWinner(O):
+                oCanWin = True
+        if xCanWin:
+            boardStr += "\nX는 한 번만 더 이동하면 승리할 수 있습니다."
+        if oCanWin:
+            boardStr += "\nO는 한 번만 더 이동하면 승리할 수 있습니다."
+        self._spaces = originalSpaces
+        return boardStr
+
+
+class HintBoard_Mini(MiniBoard):
+    def getBoardStr(self):
+        """힌트가 포함된 말판을 텍스트로 표현하는 문자열을 반환한다."""
+        boardStr = super().getBoardStr()  # TTTBoard에 있는 getBoardStr()을 호출한다
+
+        xCanWin = False
+        oCanWin = False
+        originalSpaces = self._spaces  # _space를 백업한다
+        for space in ALL_SPACES:  # 모든 칸을 확인한다
+            # 이 칸에서 X 이동을 시뮬레이션한다
+            self._spaces = copy.copy(originalSpaces)
+            if self._spaces[space] == BLANK:
+                self._spaces[space] = X
+            if self.isWinner(X):
+                xCanWin = True
+
+            # 이 칸에서 O 이동을 시뮬레이션한다
+            self._spaces = copy.copy(originalSpaces)
+            if self._spaces[space] == BLANK:
+                self._spaces[space] = O
+            if self.isWinner(O):
+                oCanWin = True
+        if xCanWin:
+            boardStr += "\nX는 한 번만 더 이동하면 승리할 수 있습니다."
+        if oCanWin:
+            boardStr += "\nO는 한 번만 더 이동하면 승리할 수 있습니다."
+        self._spaces = originalSpaces
+        return boardStr
 
 
 if __name__ == "__main__":
